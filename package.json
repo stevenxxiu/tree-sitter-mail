@@ -8,6 +8,7 @@
     "name": "Steven Xu",
     "email": "stevenxxiu@gmail.com"
   },
+  "type": "module",
   "main": "bindings/node",
   "types": "bindings/node",
   "keywords": [

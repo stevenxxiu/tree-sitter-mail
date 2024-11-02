@@ -7,11 +7,11 @@
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
-module.exports = grammar({
-  name: "mail",
+export default grammar({
+  name: 'mail',
 
   rules: {
     // TODO: add the actual grammar rules
-    source_file: $ => "hello"
-  }
-});
+    source_file: ($) => 'hello',
+  },
+})
