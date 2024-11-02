@@ -1,0 +1,34 @@
+{
+  "grammars": [
+    {
+      "name": "mail",
+      "camelcase": "Mail",
+      "scope": "source.mail",
+      "path": ".",
+      "file-types": null,
+      "injection-regex": "^mail$"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Email parser",
+    "authors": [
+      {
+        "name": "Steven Xu",
+        "email": "stevenxxiu@gmail.com"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/stevenxxiu/tree-sitter-mail"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true
+  }
+}
