@@ -1,0 +1,61 @@
+===
+header-from-to
+===
+
+From: name1 name2 <user1@example.com>
+To: name1 "name <>" name3 <user2@example.com>
+
+---
+
+(source_file
+  (header_email
+    (header_field_email)
+    (header_separator)
+    (atom)
+    (atom)
+    (email))
+  (header_email
+    (header_field_email)
+    (header_separator)
+    (atom)
+    (quoted_string)
+    (atom)
+    (email)))
+
+===
+header-subject
+===
+
+Subject: some "subject
+
+---
+
+(source_file
+  (header_subject
+    (header_field_subject)
+    (header_separator)
+    (header_unstructured)))
+
+===
+header-other
+===
+
+X-ExtEditorR-Priority: normal
+X-ExtEditorR-Delivery-Format: [auto]
+X-ExtEditorR-Help: Some help
+
+---
+
+(source_file
+  (header_other
+    (header_field)
+    (header_separator)
+    (header_unstructured))
+  (header_other
+    (header_field)
+    (header_separator)
+    (header_unstructured))
+  (header_other
+    (header_field)
+    (header_separator)
+    (header_unstructured)))

@@ -1,12 +1,164 @@
 [
   {
-    "type": "source_file",
+    "type": "header_email",
     "named": true,
-    "root": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "atom",
+          "named": true
+        },
+        {
+          "type": "email",
+          "named": true
+        },
+        {
+          "type": "header_field_email",
+          "named": true
+        },
+        {
+          "type": "header_separator",
+          "named": true
+        },
+        {
+          "type": "quoted_string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "header_field_email",
+    "named": true,
     "fields": {}
   },
   {
-    "type": "hello",
+    "type": "header_other",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "header_field",
+          "named": true
+        },
+        {
+          "type": "header_separator",
+          "named": true
+        },
+        {
+          "type": "header_unstructured",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "header_subject",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "header_field_subject",
+          "named": true
+        },
+        {
+          "type": "header_separator",
+          "named": true
+        },
+        {
+          "type": "header_unstructured",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "source_file",
+    "named": true,
+    "root": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "header_email",
+          "named": true
+        },
+        {
+          "type": "header_other",
+          "named": true
+        },
+        {
+          "type": "header_subject",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "<",
     "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": "Bcc",
+    "named": false
+  },
+  {
+    "type": "Cc",
+    "named": false
+  },
+  {
+    "type": "From",
+    "named": false
+  },
+  {
+    "type": "Reply-To",
+    "named": false
+  },
+  {
+    "type": "To",
+    "named": false
+  },
+  {
+    "type": "atom",
+    "named": true
+  },
+  {
+    "type": "email",
+    "named": true
+  },
+  {
+    "type": "header_field",
+    "named": true
+  },
+  {
+    "type": "header_field_subject",
+    "named": true
+  },
+  {
+    "type": "header_separator",
+    "named": true
+  },
+  {
+    "type": "header_unstructured",
+    "named": true
+  },
+  {
+    "type": "quoted_string",
+    "named": true
   }
 ]
