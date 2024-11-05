@@ -106,14 +106,6 @@
     }
   },
   {
-    "type": "<",
-    "named": false
-  },
-  {
-    "type": ">",
-    "named": false
-  },
-  {
     "type": "Bcc",
     "named": false
   },
