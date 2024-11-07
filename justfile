@@ -7,3 +7,5 @@ generate:
 test: generate
         tree-sitter test
 
+build:
+        tree-sitter build
