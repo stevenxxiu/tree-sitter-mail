@@ -21,7 +21,7 @@ export default grammar({
 
     _header: ($) => choice(prec(1, $.header_email), prec(1, $.header_subject), $.header_other),
     header_email: ($) =>
-      seq($.header_field_email, $.header_separator, repeat1(choice($.atom, $.quoted_string)), $.email),
+      seq($.header_field_email, $.header_separator, repeat(choice($.atom, $.quoted_string)), optional($.email)),
     header_other: ($) => seq($.header_field, $.header_separator, $.header_unstructured),
     header_subject: ($) => seq($.header_field_subject, $.header_separator, $.header_unstructured),
 

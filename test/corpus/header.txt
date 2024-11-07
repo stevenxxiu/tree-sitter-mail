@@ -22,6 +22,31 @@ To: name1 "name <>" name3 <user2@example.com>
     (email)))
 
 ===
+header-empty
+===
+From:
+
+---
+
+(source_file
+  (header_email
+    (header_field_email)
+    (header_separator)))
+
+===
+header-empty-email
+===
+From: name1
+
+---
+
+(source_file
+  (header_email
+    (header_field_email)
+    (header_separator)
+    (atom)))
+
+===
 header-subject
 ===
 Subject: some "subject

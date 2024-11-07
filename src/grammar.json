@@ -85,7 +85,7 @@
           "name": "header_separator"
         },
         {
-          "type": "REPEAT1",
+          "type": "REPEAT",
           "content": {
             "type": "CHOICE",
             "members": [
@@ -101,8 +101,16 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "email"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "email"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
