@@ -3,7 +3,37 @@
   "name": "mail",
   "rules": {
     "source_file": {
-      "type": "REPEAT",
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_headers"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "body_separator"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "body"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "_headers": {
+      "type": "REPEAT1",
       "content": {
         "type": "SEQ",
         "members": [
@@ -162,6 +192,14 @@
     "email": {
       "type": "PATTERN",
       "value": "<[^<>]+>"
+    },
+    "body_separator": {
+      "type": "PATTERN",
+      "value": "\\n"
+    },
+    "body": {
+      "type": "PATTERN",
+      "value": "(.|\\n)*"
     }
   },
   "extras": [

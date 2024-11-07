@@ -91,6 +91,14 @@
       "required": false,
       "types": [
         {
+          "type": "body",
+          "named": true
+        },
+        {
+          "type": "body_separator",
+          "named": true
+        },
+        {
           "type": "header_email",
           "named": true
         },
@@ -131,6 +139,14 @@
   },
   {
     "type": "atom",
+    "named": true
+  },
+  {
+    "type": "body",
+    "named": true
+  },
+  {
+    "type": "body_separator",
     "named": true
   },
   {

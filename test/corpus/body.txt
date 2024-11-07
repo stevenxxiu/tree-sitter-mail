@@ -1,0 +1,23 @@
+===
+body
+===
+From: name1 <user1@example.com>
+To: name2 <user2@example.com>
+
+Hello world
+
+---
+
+(source_file
+  (header_email
+    (header_field_email)
+    (header_separator)
+    (atom)
+    (email))
+  (header_email
+    (header_field_email)
+    (header_separator)
+    (atom)
+    (email))
+  (body_separator)
+  (body))

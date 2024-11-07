@@ -15,7 +15,9 @@ export default grammar({
   extras: (_$) => [' '],
 
   rules: {
-    source_file: ($) => repeat(seq($._header, '\n')),
+    source_file: ($) => seq($._headers, optional(seq($.body_separator, $.body))),
+
+    _headers: ($) => repeat1(seq($._header, '\n')),
 
     _header: ($) => choice(prec(1, $.header_email), prec(1, $.header_subject), $.header_other),
     header_email: ($) =>
@@ -32,5 +34,8 @@ export default grammar({
     atom: (_$) => new RegExp(`[^${SPECIAL.source.slice(1, -1)}\\s${CTL.source.slice(1, -1)}]+`),
     quoted_string: (_$) => /"[^"\\\n]+"/,
     email: (_$) => /<[^<>]+>/,
+
+    body_separator: (_$) => /\n/,
+    body: (_$) => /(.|\n)*/,
   },
 })

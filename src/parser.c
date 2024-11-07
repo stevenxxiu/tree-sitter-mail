@@ -5,11 +5,11 @@
 #endif
 
 #define LANGUAGE_VERSION 14
-#define STATE_COUNT 19
+#define STATE_COUNT 21
 #define LARGE_STATE_COUNT 4
-#define SYMBOL_COUNT 22
+#define SYMBOL_COUNT 24
 #define ALIAS_COUNT 0
-#define TOKEN_COUNT 14
+#define TOKEN_COUNT 16
 #define EXTERNAL_TOKEN_COUNT 0
 #define FIELD_COUNT 0
 #define MAX_ALIAS_SEQUENCE_LENGTH 4
@@ -29,14 +29,16 @@ enum ts_symbol_identifiers {
   sym_atom = 11,
   sym_quoted_string = 12,
   sym_email = 13,
-  sym_source_file = 14,
-  sym__header = 15,
-  sym_header_email = 16,
-  sym_header_other = 17,
-  sym_header_subject = 18,
-  sym_header_field_email = 19,
-  aux_sym_source_file_repeat1 = 20,
-  aux_sym_header_email_repeat1 = 21,
+  sym_body_separator = 14,
+  sym_body = 15,
+  sym_source_file = 16,
+  aux_sym__headers = 17,
+  sym__header = 18,
+  sym_header_email = 19,
+  sym_header_other = 20,
+  sym_header_subject = 21,
+  sym_header_field_email = 22,
+  aux_sym_header_email_repeat1 = 23,
 };
 
 static const char * const ts_symbol_names[] = {
@@ -54,13 +56,15 @@ static const char * const ts_symbol_names[] = {
   [sym_atom] = "atom",
   [sym_quoted_string] = "quoted_string",
   [sym_email] = "email",
+  [sym_body_separator] = "body_separator",
+  [sym_body] = "body",
   [sym_source_file] = "source_file",
+  [aux_sym__headers] = "_headers",
   [sym__header] = "_header",
   [sym_header_email] = "header_email",
   [sym_header_other] = "header_other",
   [sym_header_subject] = "header_subject",
   [sym_header_field_email] = "header_field_email",
-  [aux_sym_source_file_repeat1] = "source_file_repeat1",
   [aux_sym_header_email_repeat1] = "header_email_repeat1",
 };
 
@@ -79,13 +83,15 @@ static const TSSymbol ts_symbol_map[] = {
   [sym_atom] = sym_atom,
   [sym_quoted_string] = sym_quoted_string,
   [sym_email] = sym_email,
+  [sym_body_separator] = sym_body_separator,
+  [sym_body] = sym_body,
   [sym_source_file] = sym_source_file,
+  [aux_sym__headers] = aux_sym__headers,
   [sym__header] = sym__header,
   [sym_header_email] = sym_header_email,
   [sym_header_other] = sym_header_other,
   [sym_header_subject] = sym_header_subject,
   [sym_header_field_email] = sym_header_field_email,
-  [aux_sym_source_file_repeat1] = aux_sym_source_file_repeat1,
   [aux_sym_header_email_repeat1] = aux_sym_header_email_repeat1,
 };
 
@@ -146,9 +152,21 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .visible = true,
     .named = true,
   },
+  [sym_body_separator] = {
+    .visible = true,
+    .named = true,
+  },
+  [sym_body] = {
+    .visible = true,
+    .named = true,
+  },
   [sym_source_file] = {
     .visible = true,
     .named = true,
+  },
+  [aux_sym__headers] = {
+    .visible = false,
+    .named = false,
   },
   [sym__header] = {
     .visible = false,
@@ -169,10 +187,6 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
   [sym_header_field_email] = {
     .visible = true,
     .named = true,
-  },
-  [aux_sym_source_file_repeat1] = {
-    .visible = false,
-    .named = false,
   },
   [aux_sym_header_email_repeat1] = {
     .visible = false,
@@ -208,6 +222,8 @@ static const TSStateId ts_primary_state_ids[STATE_COUNT] = {
   [16] = 16,
   [17] = 17,
   [18] = 18,
+  [19] = 19,
+  [20] = 20,
 };
 
 static TSCharacterRange sym_atom_character_set_1[] = {
@@ -244,6 +260,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead != 0x7f) ADVANCE(50);
       END_STATE();
     case 1:
+      if (lookahead == '\n') ADVANCE(8);
       if (lookahead == ' ') SKIP(1);
       if (lookahead == '"') ADVANCE(4);
       if (lookahead == '<') ADVANCE(5);
@@ -273,6 +290,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 6:
       if (eof) ADVANCE(7);
+      if (lookahead == '\n') ADVANCE(69);
       if (lookahead == ' ') SKIP(6);
       if (lookahead == 'B') ADVANCE(23);
       if (lookahead == 'C') ADVANCE(19);
@@ -947,6 +965,18 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
     case 68:
       ACCEPT_TOKEN(sym_email);
       END_STATE();
+    case 69:
+      ACCEPT_TOKEN(sym_body_separator);
+      END_STATE();
+    case 70:
+      ACCEPT_TOKEN(sym_body);
+      if (lookahead == ' ') ADVANCE(70);
+      if (lookahead != 0) ADVANCE(71);
+      END_STATE();
+    case 71:
+      ACCEPT_TOKEN(sym_body);
+      if (lookahead != 0) ADVANCE(71);
+      END_STATE();
     default:
       return false;
   }
@@ -965,13 +995,15 @@ static const TSLexMode ts_lex_modes[STATE_COUNT] = {
   [9] = {.lex_state = 0},
   [10] = {.lex_state = 0},
   [11] = {.lex_state = 0},
-  [12] = {.lex_state = 0},
+  [12] = {.lex_state = 1},
   [13] = {.lex_state = 0},
   [14] = {.lex_state = 64},
-  [15] = {.lex_state = 64},
-  [16] = {.lex_state = 0},
-  [17] = {.lex_state = 0},
+  [15] = {.lex_state = 70},
+  [16] = {.lex_state = 1},
+  [17] = {.lex_state = 1},
   [18] = {.lex_state = 0},
+  [19] = {.lex_state = 64},
+  [20] = {.lex_state = 1},
 };
 
 static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
@@ -987,47 +1019,48 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_Reply_DASHTo] = ACTIONS(1),
     [sym_header_field_subject] = ACTIONS(1),
     [sym_atom] = ACTIONS(1),
+    [sym_body_separator] = ACTIONS(1),
   },
   [1] = {
     [sym_source_file] = STATE(11),
+    [aux_sym__headers] = STATE(2),
     [sym__header] = STATE(12),
     [sym_header_email] = STATE(12),
     [sym_header_other] = STATE(12),
     [sym_header_subject] = STATE(12),
     [sym_header_field_email] = STATE(13),
-    [aux_sym_source_file_repeat1] = STATE(2),
-    [ts_builtin_sym_end] = ACTIONS(3),
-    [sym_header_field] = ACTIONS(5),
-    [anon_sym_From] = ACTIONS(7),
-    [anon_sym_To] = ACTIONS(7),
-    [anon_sym_Cc] = ACTIONS(7),
-    [anon_sym_Bcc] = ACTIONS(7),
-    [anon_sym_Reply_DASHTo] = ACTIONS(7),
-    [sym_header_field_subject] = ACTIONS(9),
+    [sym_header_field] = ACTIONS(3),
+    [anon_sym_From] = ACTIONS(5),
+    [anon_sym_To] = ACTIONS(5),
+    [anon_sym_Cc] = ACTIONS(5),
+    [anon_sym_Bcc] = ACTIONS(5),
+    [anon_sym_Reply_DASHTo] = ACTIONS(5),
+    [sym_header_field_subject] = ACTIONS(7),
   },
   [2] = {
+    [aux_sym__headers] = STATE(3),
     [sym__header] = STATE(12),
     [sym_header_email] = STATE(12),
     [sym_header_other] = STATE(12),
     [sym_header_subject] = STATE(12),
     [sym_header_field_email] = STATE(13),
-    [aux_sym_source_file_repeat1] = STATE(3),
-    [ts_builtin_sym_end] = ACTIONS(11),
-    [sym_header_field] = ACTIONS(5),
-    [anon_sym_From] = ACTIONS(7),
-    [anon_sym_To] = ACTIONS(7),
-    [anon_sym_Cc] = ACTIONS(7),
-    [anon_sym_Bcc] = ACTIONS(7),
-    [anon_sym_Reply_DASHTo] = ACTIONS(7),
-    [sym_header_field_subject] = ACTIONS(9),
+    [ts_builtin_sym_end] = ACTIONS(9),
+    [sym_header_field] = ACTIONS(3),
+    [anon_sym_From] = ACTIONS(5),
+    [anon_sym_To] = ACTIONS(5),
+    [anon_sym_Cc] = ACTIONS(5),
+    [anon_sym_Bcc] = ACTIONS(5),
+    [anon_sym_Reply_DASHTo] = ACTIONS(5),
+    [sym_header_field_subject] = ACTIONS(7),
+    [sym_body_separator] = ACTIONS(11),
   },
   [3] = {
+    [aux_sym__headers] = STATE(3),
     [sym__header] = STATE(12),
     [sym_header_email] = STATE(12),
     [sym_header_other] = STATE(12),
     [sym_header_subject] = STATE(12),
     [sym_header_field_email] = STATE(13),
-    [aux_sym_source_file_repeat1] = STATE(3),
     [ts_builtin_sym_end] = ACTIONS(13),
     [sym_header_field] = ACTIONS(15),
     [anon_sym_From] = ACTIONS(18),
@@ -1036,13 +1069,15 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_Bcc] = ACTIONS(18),
     [anon_sym_Reply_DASHTo] = ACTIONS(18),
     [sym_header_field_subject] = ACTIONS(21),
+    [sym_body_separator] = ACTIONS(13),
   },
 };
 
 static const uint16_t ts_small_parse_table[] = {
   [0] = 2,
-    ACTIONS(13), 1,
+    ACTIONS(13), 2,
       ts_builtin_sym_end,
+      sym_body_separator,
     ACTIONS(24), 7,
       sym_header_field,
       anon_sym_From,
@@ -1051,7 +1086,7 @@ static const uint16_t ts_small_parse_table[] = {
       anon_sym_Bcc,
       anon_sym_Reply_DASHTo,
       sym_header_field_subject,
-  [13] = 3,
+  [14] = 3,
     ACTIONS(28), 1,
       sym_email,
     STATE(6), 1,
@@ -1059,7 +1094,7 @@ static const uint16_t ts_small_parse_table[] = {
     ACTIONS(26), 2,
       sym_atom,
       sym_quoted_string,
-  [24] = 3,
+  [25] = 3,
     ACTIONS(33), 1,
       sym_email,
     STATE(6), 1,
@@ -1067,94 +1102,104 @@ static const uint16_t ts_small_parse_table[] = {
     ACTIONS(30), 2,
       sym_atom,
       sym_quoted_string,
-  [35] = 2,
+  [36] = 2,
     STATE(5), 1,
       aux_sym_header_email_repeat1,
     ACTIONS(35), 2,
       sym_atom,
       sym_quoted_string,
-  [43] = 1,
+  [44] = 1,
     ACTIONS(37), 1,
       sym_header_separator,
-  [47] = 1,
+  [48] = 1,
     ACTIONS(39), 1,
       sym_header_separator,
-  [51] = 1,
+  [52] = 1,
     ACTIONS(41), 1,
       sym_header_separator,
-  [55] = 1,
+  [56] = 1,
     ACTIONS(43), 1,
       ts_builtin_sym_end,
-  [59] = 1,
+  [60] = 1,
     ACTIONS(45), 1,
       anon_sym_LF,
-  [63] = 1,
+  [64] = 1,
     ACTIONS(47), 1,
       sym_header_separator,
-  [67] = 1,
+  [68] = 1,
     ACTIONS(49), 1,
       sym_header_unstructured,
-  [71] = 1,
+  [72] = 1,
     ACTIONS(51), 1,
-      sym_header_unstructured,
-  [75] = 1,
+      sym_body,
+  [76] = 1,
     ACTIONS(53), 1,
       anon_sym_LF,
-  [79] = 1,
+  [80] = 1,
     ACTIONS(55), 1,
       anon_sym_LF,
-  [83] = 1,
+  [84] = 1,
     ACTIONS(57), 1,
+      ts_builtin_sym_end,
+  [88] = 1,
+    ACTIONS(59), 1,
+      sym_header_unstructured,
+  [92] = 1,
+    ACTIONS(61), 1,
       anon_sym_LF,
 };
 
 static const uint32_t ts_small_parse_table_map[] = {
   [SMALL_STATE(4)] = 0,
-  [SMALL_STATE(5)] = 13,
-  [SMALL_STATE(6)] = 24,
-  [SMALL_STATE(7)] = 35,
-  [SMALL_STATE(8)] = 43,
-  [SMALL_STATE(9)] = 47,
-  [SMALL_STATE(10)] = 51,
-  [SMALL_STATE(11)] = 55,
-  [SMALL_STATE(12)] = 59,
-  [SMALL_STATE(13)] = 63,
-  [SMALL_STATE(14)] = 67,
-  [SMALL_STATE(15)] = 71,
-  [SMALL_STATE(16)] = 75,
-  [SMALL_STATE(17)] = 79,
-  [SMALL_STATE(18)] = 83,
+  [SMALL_STATE(5)] = 14,
+  [SMALL_STATE(6)] = 25,
+  [SMALL_STATE(7)] = 36,
+  [SMALL_STATE(8)] = 44,
+  [SMALL_STATE(9)] = 48,
+  [SMALL_STATE(10)] = 52,
+  [SMALL_STATE(11)] = 56,
+  [SMALL_STATE(12)] = 60,
+  [SMALL_STATE(13)] = 64,
+  [SMALL_STATE(14)] = 68,
+  [SMALL_STATE(15)] = 72,
+  [SMALL_STATE(16)] = 76,
+  [SMALL_STATE(17)] = 80,
+  [SMALL_STATE(18)] = 84,
+  [SMALL_STATE(19)] = 88,
+  [SMALL_STATE(20)] = 92,
 };
 
 static const TSParseActionEntry ts_parse_actions[] = {
   [0] = {.entry = {.count = 0, .reusable = false}},
   [1] = {.entry = {.count = 1, .reusable = false}}, RECOVER(),
-  [3] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_source_file, 0, 0, 0),
+  [3] = {.entry = {.count = 1, .reusable = false}}, SHIFT(9),
   [5] = {.entry = {.count = 1, .reusable = false}}, SHIFT(8),
-  [7] = {.entry = {.count = 1, .reusable = false}}, SHIFT(9),
-  [9] = {.entry = {.count = 1, .reusable = false}}, SHIFT(10),
-  [11] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_source_file, 1, 0, 0),
-  [13] = {.entry = {.count = 1, .reusable = true}}, REDUCE(aux_sym_source_file_repeat1, 2, 0, 0),
-  [15] = {.entry = {.count = 2, .reusable = false}}, REDUCE(aux_sym_source_file_repeat1, 2, 0, 0), SHIFT_REPEAT(8),
-  [18] = {.entry = {.count = 2, .reusable = false}}, REDUCE(aux_sym_source_file_repeat1, 2, 0, 0), SHIFT_REPEAT(9),
-  [21] = {.entry = {.count = 2, .reusable = false}}, REDUCE(aux_sym_source_file_repeat1, 2, 0, 0), SHIFT_REPEAT(10),
-  [24] = {.entry = {.count = 1, .reusable = false}}, REDUCE(aux_sym_source_file_repeat1, 2, 0, 0),
+  [7] = {.entry = {.count = 1, .reusable = false}}, SHIFT(10),
+  [9] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_source_file, 1, 0, 0),
+  [11] = {.entry = {.count = 1, .reusable = true}}, SHIFT(15),
+  [13] = {.entry = {.count = 1, .reusable = true}}, REDUCE(aux_sym__headers, 2, 0, 0),
+  [15] = {.entry = {.count = 2, .reusable = false}}, REDUCE(aux_sym__headers, 2, 0, 0), SHIFT_REPEAT(9),
+  [18] = {.entry = {.count = 2, .reusable = false}}, REDUCE(aux_sym__headers, 2, 0, 0), SHIFT_REPEAT(8),
+  [21] = {.entry = {.count = 2, .reusable = false}}, REDUCE(aux_sym__headers, 2, 0, 0), SHIFT_REPEAT(10),
+  [24] = {.entry = {.count = 1, .reusable = false}}, REDUCE(aux_sym__headers, 2, 0, 0),
   [26] = {.entry = {.count = 1, .reusable = true}}, SHIFT(6),
-  [28] = {.entry = {.count = 1, .reusable = true}}, SHIFT(18),
+  [28] = {.entry = {.count = 1, .reusable = true}}, SHIFT(20),
   [30] = {.entry = {.count = 2, .reusable = true}}, REDUCE(aux_sym_header_email_repeat1, 2, 0, 0), SHIFT_REPEAT(6),
   [33] = {.entry = {.count = 1, .reusable = true}}, REDUCE(aux_sym_header_email_repeat1, 2, 0, 0),
   [35] = {.entry = {.count = 1, .reusable = true}}, SHIFT(5),
-  [37] = {.entry = {.count = 1, .reusable = true}}, SHIFT(14),
-  [39] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_header_field_email, 1, 0, 0),
-  [41] = {.entry = {.count = 1, .reusable = true}}, SHIFT(15),
+  [37] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_header_field_email, 1, 0, 0),
+  [39] = {.entry = {.count = 1, .reusable = true}}, SHIFT(14),
+  [41] = {.entry = {.count = 1, .reusable = true}}, SHIFT(19),
   [43] = {.entry = {.count = 1, .reusable = true}},  ACCEPT_INPUT(),
   [45] = {.entry = {.count = 1, .reusable = true}}, SHIFT(4),
   [47] = {.entry = {.count = 1, .reusable = true}}, SHIFT(7),
   [49] = {.entry = {.count = 1, .reusable = true}}, SHIFT(16),
-  [51] = {.entry = {.count = 1, .reusable = true}}, SHIFT(17),
+  [51] = {.entry = {.count = 1, .reusable = true}}, SHIFT(18),
   [53] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_header_other, 3, 0, 0),
   [55] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_header_subject, 3, 0, 0),
-  [57] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_header_email, 4, 0, 0),
+  [57] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_source_file, 3, 0, 0),
+  [59] = {.entry = {.count = 1, .reusable = true}}, SHIFT(17),
+  [61] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_header_email, 4, 0, 0),
 };
 
 #ifdef __cplusplus
