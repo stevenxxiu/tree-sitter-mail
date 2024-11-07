@@ -5,8 +5,17 @@
     "source_file": {
       "type": "REPEAT",
       "content": {
-        "type": "SYMBOL",
-        "name": "_header"
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_header"
+          },
+          {
+            "type": "STRING",
+            "value": "\n"
+          }
+        ]
       }
     },
     "_header": {
@@ -157,8 +166,8 @@
   },
   "extras": [
     {
-      "type": "PATTERN",
-      "value": "\\s"
+      "type": "STRING",
+      "value": " "
     }
   ],
   "conflicts": [],

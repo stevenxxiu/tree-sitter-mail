@@ -12,9 +12,10 @@ const CTL = /[\x00-\x1f\x7f]/
 
 export default grammar({
   name: 'mail',
+  extras: (_$) => [' '],
 
   rules: {
-    source_file: ($) => repeat($._header),
+    source_file: ($) => repeat(seq($._header, '\n')),
 
     _header: ($) => choice(prec(1, $.header_email), prec(1, $.header_subject), $.header_other),
     header_email: ($) =>

@@ -1,7 +1,6 @@
 ===
 header-from-to
 ===
-
 From: name1 name2 <user1@example.com>
 To: name1 "name <>" name3 <user2@example.com>
 
@@ -25,7 +24,6 @@ To: name1 "name <>" name3 <user2@example.com>
 ===
 header-subject
 ===
-
 Subject: some "subject
 
 ---
@@ -39,7 +37,6 @@ Subject: some "subject
 ===
 header-other
 ===
-
 X-ExtEditorR-Priority: normal
 X-ExtEditorR-Delivery-Format: [auto]
 X-ExtEditorR-Help: Some help
