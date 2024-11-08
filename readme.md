@@ -12,3 +12,10 @@ Add to *tree-sitter* config:
   -- ...
 }
 ```
+
+To parse the body, in e.g. *Markdown*, add to `~/.config/nvim/after/queries/mail/injections.scm`:
+
+```query
+((body) @injection.content
+ (#set! injection.language "markdown"))
+```
