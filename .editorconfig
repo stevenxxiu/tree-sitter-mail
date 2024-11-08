@@ -3,6 +3,21 @@ root = true
 [*]
 charset = utf-8
 
+[*.lua]
+indent_size = 2
+continuation_indent = 2
+
+# *StyLua*
+quote_type = single
+collapse_simple_statement = FunctionOnly
+
+# *EmmyLuaCodeStyle*
+align_function_params = false
+align_continuous_assign_statement = false
+align_continuous_rect_table_field = false
+align_array_table = none
+align_continuous_inline_comment = none
+
 [*.{json,toml,yml,gyp}]
 indent_style = space
 indent_size = 2
