@@ -4,6 +4,7 @@ root = true
 charset = utf-8
 
 [*.lua]
+indent_style = space
 indent_size = 2
 continuation_indent = 2
 
