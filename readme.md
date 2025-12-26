@@ -1,6 +1,6 @@
 # Tree-sitter Grammar for Mail
-## *ts-install*
-Add to opts:
+## Neovim
+In *Neovim*, this can be installed with [lewis6991/ts-install.nvim: Treesitter parser manager for Neovim](https://github.com/lewis6991/ts-install.nvim). Add to its opts:
 
 ```lua
 parsers = {
@@ -13,7 +13,7 @@ parsers = {
 },
 ```
 
-To parse the body, in e.g. *Markdown*, add to `~/.config/nvim/after/queries/mail/injections.scm`:
+To parse the body, in e.g., *Markdown*, add to `~/.config/nvim/after/queries/mail/injections.scm`:
 
 ```query
 ((body) @injection.content
