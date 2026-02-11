@@ -135,8 +135,13 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "header_field_subject"
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "Subject"
+          },
+          "named": true,
+          "value": "header_field_subject"
         },
         {
           "type": "SYMBOL",
@@ -181,10 +186,6 @@
         }
       ]
     },
-    "header_field_subject": {
-      "type": "STRING",
-      "value": "Subject"
-    },
     "header_unstructured": {
       "type": "PATTERN",
       "value": ".*"
@@ -220,5 +221,6 @@
   "precedences": [],
   "externals": [],
   "inline": [],
-  "supertypes": []
+  "supertypes": [],
+  "reserved": {}
 }

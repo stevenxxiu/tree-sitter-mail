@@ -23,12 +23,11 @@ export default grammar({
     header_email: ($) =>
       seq($.header_field_email, $.header_separator, repeat(choice($.atom, $.quoted_string)), optional($.email)),
     header_other: ($) => seq($.header_field, $.header_separator, $.header_unstructured),
-    header_subject: ($) => seq($.header_field_subject, $.header_separator, $.header_unstructured),
+    header_subject: ($) => seq(alias('Subject', $.header_field_subject), $.header_separator, $.header_unstructured),
 
     header_separator: (_$) => ':',
     header_field: (_$) => new RegExp(`[^${CTL.source.slice(1, -1)}\\s:]+`),
     header_field_email: (_$) => choice('From', 'To', 'Cc', 'Bcc', 'Reply-To'),
-    header_field_subject: (_$) => 'Subject',
     header_unstructured: (_$) => /.*/,
 
     atom: (_$) => new RegExp(`[^${SPECIAL.source.slice(1, -1)}\\s${CTL.source.slice(1, -1)}]+`),
