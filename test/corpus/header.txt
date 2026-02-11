@@ -1,8 +1,7 @@
 ===
-header-from-to
+header-from
 ===
 From: name1 name2 <user1@example.com>
-To: name1 "name <>" name3 <user2@example.com>
 
 ---
 
@@ -12,7 +11,16 @@ To: name1 "name <>" name3 <user2@example.com>
     (header_separator)
     (atom)
     (atom)
-    (email))
+    (email)))
+
+===
+header-to
+===
+To: name1 "name <>" name3 <user2@example.com>
+
+---
+
+(source_file
   (header_email
     (header_field_email)
     (header_separator)
