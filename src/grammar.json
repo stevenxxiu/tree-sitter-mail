@@ -74,41 +74,98 @@
       ]
     },
     "header_email": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "header_field_email"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "header_separator"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "atom"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "quoted_string"
-              }
-            ]
-          }
-        },
-        {
-          "type": "CHOICE",
+          "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "email"
+              "type": "ALIAS",
+              "content": {
+                "type": "STRING",
+                "value": "From"
+              },
+              "named": true,
+              "value": "header_field_email"
             },
             {
-              "type": "BLANK"
+              "type": "SYMBOL",
+              "name": "header_separator"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_mailbox"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "To"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "Cc"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "Bcc"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "Reply-To"
+                  }
+                ]
+              },
+              "named": true,
+              "value": "header_field_email"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "header_separator"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_mailbox"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  }
+                ]
+              }
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_mailbox"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
             }
           ]
         }
@@ -153,6 +210,48 @@
         }
       ]
     },
+    "_name": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "atom"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "quoted_string"
+          }
+        ]
+      }
+    },
+    "_mailbox": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "email"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_name"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "email"
+            }
+          ]
+        }
+      ]
+    },
     "header_separator": {
       "type": "STRING",
       "value": ":"
@@ -160,31 +259,6 @@
     "header_field": {
       "type": "PATTERN",
       "value": "[^\\x00-\\x1f\\x7f\\s:]+"
-    },
-    "header_field_email": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "From"
-        },
-        {
-          "type": "STRING",
-          "value": "To"
-        },
-        {
-          "type": "STRING",
-          "value": "Cc"
-        },
-        {
-          "type": "STRING",
-          "value": "Bcc"
-        },
-        {
-          "type": "STRING",
-          "value": "Reply-To"
-        }
-      ]
     },
     "header_unstructured": {
       "type": "PATTERN",

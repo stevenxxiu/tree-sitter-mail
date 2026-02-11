@@ -55,6 +55,22 @@ From: name1
     (atom)))
 
 ===
+header-to-multiple
+===
+To: name1 <user1@example.com>, name2 <user2@example.com>
+
+---
+
+(source_file
+  (header_email
+    (header_field_email)
+    (header_separator)
+    (atom)
+    (email)
+    (atom)
+    (email)))
+
+===
 header-subject
 ===
 Subject: some "subject

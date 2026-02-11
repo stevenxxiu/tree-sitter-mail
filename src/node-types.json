@@ -31,11 +31,6 @@
     }
   },
   {
-    "type": "header_field_email",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "header_other",
     "named": true,
     "fields": {},
@@ -118,23 +113,7 @@
     "named": false
   },
   {
-    "type": "Bcc",
-    "named": false
-  },
-  {
-    "type": "Cc",
-    "named": false
-  },
-  {
-    "type": "From",
-    "named": false
-  },
-  {
-    "type": "Reply-To",
-    "named": false
-  },
-  {
-    "type": "To",
+    "type": ",",
     "named": false
   },
   {
@@ -155,6 +134,10 @@
   },
   {
     "type": "header_field",
+    "named": true
+  },
+  {
+    "type": "header_field_email",
     "named": true
   },
   {
